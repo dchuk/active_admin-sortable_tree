@@ -22,9 +22,9 @@ module ActiveAdmin::SortableTree
       config.paginate = false
 
       collection_action :sort, :method => :post do
-        resource_name = active_admin_config.resource_name.to_s.underscore.parameterize('_')
+        resource_name = active_admin_config.resource_name.to_s.underscore.parameterize
 
-        records = params[resource_name].inject({}) do |res, (resource, parent_resource)|
+        records = params[resource_name].to_unsafe_hash.inject({}) do |res, (resource, parent_resource)|
           res[resource_class.find(resource)] = resource_class.find(parent_resource) rescue nil
           res
         end
